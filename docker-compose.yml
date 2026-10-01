@@ -1,0 +1,25 @@
+# ServeNext - one command backend + database:  docker compose up --build
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: queue
+      POSTGRES_PASSWORD: queue
+      POSTGRES_DB: queuedb
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U queue -d queuedb"]
+      interval: 3s
+      retries: 20
+  api:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgres://queue:queue@db:5432/queuedb?sslmode=disable
+      AUTH_SECRET: change-me-in-production
+      PORT: "8080"
+    depends_on:
+      db: { condition: service_healthy }
+    ports: ["8080:8080"]
+volumes:
+  pgdata:

@@ -1,0 +1,21 @@
+# Flutter generated files
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Go build output
+backend/servenext-api
+
+# Environment / secrets
+.env
+*.env
+
+# OS files
+.DS_Store
+Thumbs.db
